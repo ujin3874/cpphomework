@@ -1,0 +1,78 @@
+//문제4//
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Circle {
+	int radius;
+	string name;
+public:
+	void setCircle(string name, int radius);
+	double getArea();
+	string getName();
+};
+class CircleManager {
+	Circle *p;
+	int size;
+public:
+	CircleManager(int size);
+	~CircleManager();
+	void searchByName();
+	void searchByArea();
+	void input();
+};
+void Circle::setCircle(string name, int radius) {
+	this->name = name;
+	this->radius = radius;
+}
+double Circle::getArea() {
+	return 3.14*radius*radius;
+}
+string Circle::getName() {
+	return name;
+}
+CircleManager::CircleManager(int size) {
+	this->size = size;
+	p = new Circle[size];
+}
+CircleManager::~CircleManager() {
+	delete[] p;
+}
+void CircleManager::searchByName() {
+	string search;
+	cout << "검색하고자 하는 원의 이름 >> ";
+	cin >> search;
+	for (int i = 0; i < size; i++) {
+		if (p[i].getName() == search)
+			cout << p[i].getName() << "의 면적은 " << p[i].getArea() << endl;
+	}
+}
+void CircleManager::searchByArea() {
+	int search;
+	cout << "최소 면적을 정수로 입력하세요 >>";
+	cin >> search;
+	cout << search << "보다 큰 원을 검색합니다." << endl;
+	for (int i = 0; i < size; i++) {
+		if (p[i].getArea() >= search)
+			cout << p[i].getName() << "의 면적은 " << p[i].getArea() << ",";
+	}
+	cout << endl;
+}
+void CircleManager::input() {
+	for (int i = 0; i < size; i++) {
+		string name;
+		int radius;
+		cout << "원 " << i + 1 << "의 이름과 반지름 >>" ;
+		cin >> name >> radius;
+		p[i].setCircle(name, radius);
+	}
+}
+int main() {
+	int n;
+	cout << "원의 개수 >> ";
+	cin >> n;
+	CircleManager *c = new CircleManager(n);
+	c->input();
+	c->searchByName();
+	c->searchByArea();
+}
